@@ -17,4 +17,6 @@ COPY README.md /
 
 EXPOSE 22
 
+ENV SFTP_HOME=/home
+
 ENTRYPOINT ["/entrypoint"]
