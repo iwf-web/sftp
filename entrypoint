@@ -58,9 +58,9 @@ function createUser() {
     fi
 
     useradd $useraddOptions $user
-    mkdir -p /home/$user
-    chown root:root /home/$user
-    chmod 755 /home/$user
+    mkdir -p $SFTP_HOME/$user
+    chown root:root $SFTP_HOME/$user
+    chmod 755 $SFTP_HOME/$user
 
     # Retrieving user id to use it in chown commands instead of the user name
     # to avoid problems on alpine when the user name contains a '.'
@@ -73,17 +73,17 @@ function createUser() {
     fi
 
     # Add SSH keys to authorized_keys with valid permissions
-    if [ -d /home/$user/.ssh/keys ]; then
-        cat /home/$user/.ssh/keys/* >> /home/$user/.ssh/authorized_keys
-        chown $uid /home/$user/.ssh/authorized_keys
-        chmod 600 /home/$user/.ssh/authorized_keys
+    if [ -d $SFTP_HOME/$user/.ssh/keys ]; then
+        cat $SFTP_HOME/$user/.ssh/keys/* >> $SFTP_HOME/$user/.ssh/authorized_keys
+        chown $uid $SFTP_HOME/$user/.ssh/authorized_keys
+        chmod 600 $SFTP_HOME/$user/.ssh/authorized_keys
     fi
 
     # Make sure dirs exists and has correct permissions
     if [ -n "$dir" ]; then
         IFS=',' read -a dirParam <<< $dir
         for dirPath in ${dirParam[@]}; do
-            dirPath=/home/$user/$dirPath
+            dirPath=$SFTP_HOME/$user/$dirPath
             echo "Creating and/or setting permissions on $dirPath"
             mkdir -p $dirPath
             chown -R $uid:users $dirPath
