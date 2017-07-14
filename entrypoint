@@ -59,6 +59,7 @@ function createUser() {
 
     useradd $useraddOptions -d $SFTP_HOME/$user $user
     mkdir -p $SFTP_HOME/$user
+    chown root:root $SFTP_HOME
     chown root:root $SFTP_HOME/$user
     chmod 755 $SFTP_HOME/$user
 
